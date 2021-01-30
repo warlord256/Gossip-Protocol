@@ -1,1 +1,4 @@
 # Gossip-Protocol
+
+Gossip protocol works for all the topologies in assumption that there are no node failures. Any node, upon hearing the gossip for 10 times notifies the master with “GossipComplete” message and stops transmitting the gossip. The master, upon receiving the “GossipComplete” notification, starts the timer and sets the receive timeout for itself as 10s. The receive timeout essentially is an inactivity timeout after which a “Akka.Actor.ReceiveTimeout” message is received by the master. If any other message is received by the master, timeout is reset to initial timeout specified(10s). Upon not hearing any message within the timeout duration the master assumes that convergence has been reached.
+PushSum algorithm also works for all the topologies in assumption that there are no node failures. When the change in the ratio s/w remains less than 10-10 for 3 consecutive rounds the convergence is said to be reached. This information is returned to the master.
